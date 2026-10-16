@@ -1,0 +1,14 @@
+{
+  "image_size": 224,
+  "batch_size": 32,
+  "lr": 0.0001,
+  "n_epochs": 50,
+  "patience": 5,
+  "pretrained": true,
+  "model": "resnet18",
+  "seed": 27,
+  "threshold": 0.48075777292251587,
+  "torch": "2.11.0+cu128",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+  "machine": "x86_64"
+}

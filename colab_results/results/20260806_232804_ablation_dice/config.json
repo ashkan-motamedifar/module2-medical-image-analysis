@@ -1,0 +1,17 @@
+{
+  "crop_size": 256,
+  "batch_size": 4,
+  "lr": 0.0001,
+  "n_epochs": 40,
+  "patience": 5,
+  "repeats": 8,
+  "loss": "dice",
+  "splits": [
+    20,
+    5,
+    5
+  ],
+  "torch": "2.11.0+cu128",
+  "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+  "machine": "x86_64"
+}
