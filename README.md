@@ -16,9 +16,9 @@ actual work.
 
 ## Results
 
-Single run, seed 27 (see [Known bugs](#known-bugs-in-the-lecturers-originals) and
-the [CCE polyp](#cce-polyp-task-1--present) section for why these numbers need the
-caveats listed there; multi-seed runs are in `notebooks/colab_task2_3seeds.ipynb`).
+Single run, seed 27 (see the [CCE polyp](#cce-polyp-task-1--present) section for why
+these numbers need the caveats listed there; multi-seed runs are in
+`notebooks/colab_task2_3seeds.ipynb`).
 
 **Task 1 — polyp classification** (test set, 319 images)
 
@@ -167,33 +167,6 @@ instructor's split files are polyp-level, not patient-level.
 | MLP, 28x28 | 7.6 s |
 | AlexNet, 224x224, 34k images | 3.5 min |
 | Attention U-Net, 256 crops, repeats=8 | ~55 s |
-
-## Known bugs in the lecturer's originals
-
-`notebooks/originals/segmentation_unet_membrane.ipynb`:
-
-- `for e in range(epoch)` — `epoch` is undefined, should be `n_epochs`.
-- `train_iter = next(iter(train_dl))` inside the loop rebuilds the iterator every step,
-  so it trains on the **first batch only**, forever.
-- Uses `F.mse_loss`; the exercise wants Dice / BCE / Dice+BCE with a justification.
-- Images and masks are loaded into two *separately shuffled-free* loaders and zipped by
-  position, which only works because `shuffle=False`.
-
-`notebooks/originals/polypcharacterization_cnns.ipynb`:
-
-- `device = 'cuda' if ... else 'mps'` — no CPU fallback.
-- `resnet18(pretrained=True)` is deprecated; use `weights=`.
-- Decision threshold hardcoded to 0.65 with no justification.
-
-Both classification originals report `loss.item()` of the last batch instead of the
-epoch average, and none of the four implement the early stopping the exercise requires.
-
-## Not in this repo
-
-- `PCData/` and the `*_data.txt` split files — confidential patient data, gitignored.
-- `Module2-Part1.pdf`, `Module2-Part2.pdf`, the clinical-validation `.pptx` — the
-  instructor's lecture material, not this author's work.
-- Model checkpoints (`*.pt`) — large, regenerable by rerunning the notebooks.
 
 ## Author
 
