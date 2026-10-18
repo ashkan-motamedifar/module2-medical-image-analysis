@@ -8,7 +8,7 @@ module2_data.zip
 # Public datasets, large and re-downloadable
 data/
 
-# Regenerable build artifact: zip -r module2_code.zip src unet.py -x "*__pycache__*"
+# Regenerable build artifact: zip -r module2_code.zip src -x "*__pycache__*"
 module2_code.zip
 
 # Local run outputs (save_run() writes here) / model checkpoints
