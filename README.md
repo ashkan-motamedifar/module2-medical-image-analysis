@@ -18,7 +18,7 @@ actual work.
 
 Single run, seed 27 (see [Known bugs](#known-bugs-in-the-lecturers-originals) and
 the [CCE polyp](#cce-polyp-task-1--present) section for why these numbers need the
-caveats listed there; multi-seed runs are in `colab_task2_3seeds.ipynb`).
+caveats listed there; multi-seed runs are in `notebooks/colab_task2_3seeds.ipynb`).
 
 **Task 1 — polyp classification** (test set, 319 images)
 
@@ -60,37 +60,42 @@ uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -r requi
 the matching `scipy==1.13.1` / `scikit-learn==1.5.2`. Bumping any one of those alone
 breaks the import.
 
-Run notebooks from this folder so `src/` is importable.
+Open notebooks from anywhere — each one's first code cell walks up to the repo root
+so `src/` and `data/`/`PCData/` resolve regardless of launch directory.
 
 ## Notebooks
 
+All in [`notebooks/`](notebooks); the lecturer's untouched originals are in
+[`notebooks/originals/`](notebooks/originals).
+
 | Notebook | Task | Status |
 |---|---|---|
-| `colab_module2.ipynb` | **both tasks, all 6 models** | run this on a GPU |
-| `01_mlp_organamnist.ipynb` | warm-up | runs |
-| `02_alexnet_organamnist.ipynb` | warm-up | runs |
-| `03_polyp_mobilenet.ipynb` | Task 1, single model | runs on real data |
-| `04_segmentation_attention_unet.ipynb` | Task 2, single model | runs on real data |
+| `notebooks/colab_module2.ipynb` | **both tasks, all 6 models** | run this on a GPU |
+| `notebooks/01_mlp_organamnist.ipynb` | warm-up | runs |
+| `notebooks/02_alexnet_organamnist.ipynb` | warm-up | runs |
+| `notebooks/03_polyp_mobilenet.ipynb` | Task 1, single model | runs on real data |
+| `notebooks/04_segmentation_attention_unet.ipynb` | Task 2, single model | runs on real data |
 
 ### Running on Colab
 
 Rebuild the code bundle after any change to `src/`:
 
 ```bash
-zip -r module2_code.zip src unet.py -x "*__pycache__*"
+zip -r module2_code.zip src -x "*__pycache__*"
 ```
 
 Put in your Drive root: `module2_code.zip`, and `module2/` containing `PCData/` plus the
-three `*_data.txt` files. Open `colab_module2.ipynb`, pick a T4 GPU, run all. The
-membrane data downloads itself inside the notebook.
+three `*_data.txt` files. Open `notebooks/colab_module2.ipynb`, pick a T4 GPU, run all.
+The membrane data downloads itself inside the notebook.
 
 Set `SEEDS = [27, 1, 2]` for mean ± std instead of a single run (~2.5 h vs ~50 min).
 
 Keep the Drive folder holding `PCData` private — no link sharing. It is patient data.
 
-The `classification_*_medmnist.ipynb`, `polypcharacterization_cnns.ipynb`,
-`segmentation_unet_membrane.ipynb` and `unet.py` files are the lecturer's originals,
-kept untouched for reference.
+The files in [`notebooks/originals/`](notebooks/originals)
+(`classification_*_medmnist.ipynb`, `polypcharacterization_cnns.ipynb`,
+`segmentation_unet_membrane.ipynb`, `unet.py`) are the lecturer's originals, kept
+untouched for reference.
 
 ## `src/`
 
@@ -165,7 +170,7 @@ instructor's split files are polyp-level, not patient-level.
 
 ## Known bugs in the lecturer's originals
 
-`segmentation_unet_membrane.ipynb`:
+`notebooks/originals/segmentation_unet_membrane.ipynb`:
 
 - `for e in range(epoch)` — `epoch` is undefined, should be `n_epochs`.
 - `train_iter = next(iter(train_dl))` inside the loop rebuilds the iterator every step,
@@ -174,7 +179,7 @@ instructor's split files are polyp-level, not patient-level.
 - Images and masks are loaded into two *separately shuffled-free* loaders and zipped by
   position, which only works because `shuffle=False`.
 
-`polypcharacterization_cnns.ipynb`:
+`notebooks/originals/polypcharacterization_cnns.ipynb`:
 
 - `device = 'cuda' if ... else 'mps'` — no CPU fallback.
 - `resnet18(pretrained=True)` is deprecated; use `weights=`.
