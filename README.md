@@ -45,6 +45,11 @@ these numbers need the caveats listed there; multi-seed runs are in
 | Dice + BCE | 0.704 | 0.826 | 0.829 | 0.824 | 0.924 |
 | IoU + BCE | 0.701 | 0.824 | 0.847 | 0.803 | 0.921 |
 
+![Membrane segmentation: original EM image, ground truth, and U-Net prediction for three held-out crops](colab_results/task2_qualitative.png)
+
+No example polyp images here — `PCData/` is confidential patient data (see
+[Data](#data)) and never gets published, example crops included.
+
 Figures (ROC, confusion matrix, qualitative segmentation masks) are in
 [`colab_results/`](colab_results) and [`rerun_results/`](rerun_results); the raw
 per-run `config.json` / `history.json` / `metrics.json` are there too (model
