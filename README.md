@@ -18,7 +18,9 @@ actual work.
 
 Single run, seed 27 (see the [CCE polyp](#cce-polyp-task-1--present) section for why
 these numbers need the caveats listed there; multi-seed runs are in
-`notebooks/colab_task2_3seeds.ipynb`).
+`notebooks/colab_task2_3seeds.ipynb`). The Task 2 numbers below come from a 5-image
+test split, so differences under ~0.01 Jaccard between models are run-to-run noise,
+not a real gap — see the per-table notes.
 
 **Task 1 — polyp classification** (test set, 319 images)
 
@@ -32,11 +34,17 @@ these numbers need the caveats listed there; multi-seed runs are in
 
 | Model | Jaccard (IoU) | F1 / Dice | Recall | Precision | Accuracy |
 |---|---|---|---|---|---|
-| U-Net | 0.711 | 0.831 | 0.848 | 0.815 | 0.924 |
-| Attention U-Net | 0.711 | 0.831 | 0.850 | 0.813 | 0.924 |
-| U-Net++ | 0.700 | 0.824 | 0.826 | 0.822 | 0.922 |
+| U-Net | 0.689 | 0.816 | 0.798 | 0.834 | 0.921 |
+| Attention U-Net | 0.705 | 0.827 | 0.846 | 0.809 | 0.922 |
+| U-Net++ | 0.700 | 0.824 | 0.825 | 0.823 | 0.922 |
 
-**Task 2 — loss ablation** (U-Net, same split)
+From `notebooks/colab_task2_rerun.ipynb` (150-epoch cap, early stopping actually
+triggers for all three models — `best_epoch < epochs_run` confirms convergence). The
+first pass (`colab_module2.ipynb`, 40-epoch cap) had U-Net and Attention U-Net both
+still improving at epoch 40, so it hadn't converged; its numbers are superseded by
+this rerun and are no longer quoted.
+
+**Task 2 — loss ablation** (Attention U-Net, same split)
 
 | Loss | Jaccard (IoU) | F1 / Dice | Recall | Precision | Accuracy |
 |---|---|---|---|---|---|
@@ -45,7 +53,13 @@ these numbers need the caveats listed there; multi-seed runs are in
 | Dice + BCE | 0.704 | 0.826 | 0.829 | 0.824 | 0.924 |
 | IoU + BCE | 0.701 | 0.824 | 0.847 | 0.803 | 0.921 |
 
-![Membrane segmentation: original EM image, ground truth, and U-Net prediction for three held-out crops](colab_results/task2_qualitative.png)
+Model fixed per `notebooks/colab_module2.ipynb` (`model = AttentionUNet(...)` in the
+ablation loop) — an earlier draft of this README mislabeled it as plain U-Net. No
+rerun exists for this table yet: BCE, Dice and IoU+BCE all hit the 40-epoch cap
+without early stopping triggering (only Dice+BCE converged), so treat these as
+preliminary, same caveat as the first Task 2 pass above.
+
+![Membrane segmentation: original EM image, ground truth, and Attention U-Net prediction for three held-out crops](colab_results/task2_qualitative.png)
 
 Figures (ROC, confusion matrix, qualitative segmentation masks) are in
 [`colab_results/`](colab_results) and [`rerun_results/`](rerun_results); the raw
@@ -73,6 +87,8 @@ All in [`notebooks/`](notebooks); the lecturer's untouched originals are in
 | Notebook | Task | Status |
 |---|---|---|
 | `notebooks/colab_module2.ipynb` | **both tasks, all 6 models** | run this on a GPU |
+| `notebooks/colab_task2_rerun.ipynb` | Task 2 model comparison, re-run at 150 epochs | source of the Task 2 numbers above |
+| `notebooks/colab_task2_3seeds.ipynb` | Task 2, seeds 27/1/2 | mean ± std |
 | `notebooks/01_mlp_organamnist.ipynb` | warm-up | runs |
 | `notebooks/02_alexnet_organamnist.ipynb` | warm-up | runs |
 | `notebooks/03_polyp_mobilenet.ipynb` | Task 1, single model | runs on real data |
